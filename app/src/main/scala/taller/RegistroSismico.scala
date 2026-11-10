@@ -94,5 +94,13 @@ class RegistroSismico {
   // Punto 5: informe combinado --------------------------------------------------
 
   /** Conteo, magnitud máxima y réplicas esperadas del sismo más fuerte, por región. */
-  def informe(r: Registro, minimo: Double): Map[String, Resumen] = ???
-}
+  def informe(r: Registro, minimo: Double): Map[String, Resumen] = {
+    val conteo = conteoPorRegion(r)
+    val maximas = magnitudMaxima(r)
+
+    conteo.map { case (region, cantidad) =>
+      val maxima = maximas(region)
+      (region, Resumen(cantidad, maxima, replicasSensibles(maxima, minimo).length))
+    }
+  }
+}  
