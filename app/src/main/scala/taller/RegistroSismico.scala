@@ -39,17 +39,28 @@ class RegistroSismico {
       if hayCercanos(a, b)
 
      } yield (a, b)
-     
+
    }  
 
 
   // Punto 2: agrupar con mapas --------------------------------------------------
 
-  def porRegion(r: Registro): Map[String, List[Sismo]] = ???
+  def porRegion(r: Registro): Map[String, List[Sismo]] =
+    r.groupBy(s => s.region)
 
-  def conteoPorRegion(r: Registro): Map[String, Int] = ???
+  def conteoPorRegion(r: Registro): Map[String, Int] =
+    porRegion(r).map { 
+      
+      case (region, sismos) => (region, sismos.length) 
+      
+      }
 
-  def magnitudMaxima(r: Registro): Map[String, Double] = ???
+  def magnitudMaxima(r: Registro): Map[String, Double] =
+    porRegion(r).map {
+      
+       case (region, sismos) => (region, sismos.map(s => s.magnitud).max) 
+       
+       }
 
   // Punto 3: consultas seguras --------------------------------------------------
 
